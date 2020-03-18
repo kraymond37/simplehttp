@@ -16,7 +16,8 @@ type Client struct {
 }
 
 func NewClient(endpoint string) *Client {
-	u, err := url.Parse(endpoint)
+	s := strings.TrimRight(endpoint, "/")
+	u, err := url.Parse(s)
 	if err != nil {
 		fmt.Println("invalid endpoint")
 		return nil
@@ -145,4 +146,3 @@ func (c *Client) sendJsonRequest(verb, path string, params map[string]interface{
 
 	return c.sendHttp(verb, u.String(), h, body)
 }
-
