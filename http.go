@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/url"
 	"strings"
+	"time"
 )
 
 type Client struct {
@@ -25,7 +26,7 @@ func NewClient(endpoint string) *Client {
 
 	return &Client{
 		endpoint: u,
-		client:   http.Client{},
+		client:   http.Client{Timeout: 20 * time.Second, Transport: &http.Transport{DisableKeepAlives: true}},
 	}
 }
 
