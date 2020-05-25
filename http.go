@@ -104,8 +104,7 @@ func (c *Client) sendHttp(verb, u string, header http.Header, body io.Reader) ([
 
 	respBody, _ := ioutil.ReadAll(resp.Body)
 	if resp.StatusCode != http.StatusOK {
-		fmt.Println(string(respBody))
-		return nil, fmt.Errorf(resp.Status)
+		return respBody, fmt.Errorf(resp.Status)
 	}
 
 	return respBody, nil
