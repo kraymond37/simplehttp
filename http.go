@@ -26,7 +26,10 @@ func NewClient(endpoint string) *Client {
 
 	return &Client{
 		endpoint: u,
-		client:   http.Client{Timeout: 20 * time.Second, Transport: &http.Transport{DisableKeepAlives: true}},
+		client: http.Client{
+			Timeout:   20 * time.Second,
+			Transport: &http.Transport{DisableKeepAlives: true, Proxy: http.ProxyFromEnvironment},
+		},
 	}
 }
 
