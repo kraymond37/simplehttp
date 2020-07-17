@@ -40,6 +40,8 @@ func MapToUrlValues(content map[string]interface{}) url.Values {
 		switch t := v.(type) {
 		case string:
 			queryVal = t
+		case *string:
+			queryVal = *t
 		default:
 			j, err := json.Marshal(v)
 			if err != nil {
