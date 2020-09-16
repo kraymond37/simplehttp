@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"reflect"
 	"strings"
 	"time"
 )
@@ -37,12 +38,15 @@ func MapToUrlValues(content map[string]interface{}) url.Values {
 	query := url.Values{}
 	for k, v := range content {
 		var queryVal string
-		switch t := v.(type) {
-		case string:
-			queryVal = t
-		case *string:
-			queryVal = *t
-		default:
+		typeOfValue := reflect.TypeOf(v)
+		valueOfValue := reflect.ValueOf(v)
+		if typeOfValue.Kind().String() == "string" {
+			queryVal = fmt.Sprintf("%s", v)
+		} else if typeOfValue.String() == "*string" {
+			queryVal = *v.(*string)
+		} else if typeOfValue.Kind().String() == "ptr" && typeOfValue.Elem().Kind().String() == "string" {
+			queryVal = fmt.Sprintf("%s", valueOfValue.Elem())
+		} else {
 			j, err := json.Marshal(v)
 			if err != nil {
 				fmt.Println("marshal value failed", v)

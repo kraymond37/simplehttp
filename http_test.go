@@ -26,3 +26,17 @@ func TestClient_Get(t *testing.T) {
 	}
 	fmt.Println(string(res))
 }
+
+func TestMapToUrlValues(t *testing.T) {
+	type TestA string
+	ta := TestA("abc")
+	a := "abc"
+	m := map[string]interface{}{
+		"a":  a,
+		"b":  &a,
+		"ta": ta,
+		"tb": &ta,
+	}
+	values := MapToUrlValues(m)
+	fmt.Println(values.Encode())
+}
