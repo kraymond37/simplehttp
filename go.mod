@@ -1,3 +1,3 @@
 module github.com/kraymond37/simplehttp
 
-go 1.14
+go 1.20
